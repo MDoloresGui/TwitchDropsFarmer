@@ -29,15 +29,15 @@ public class MainFunction extends SwingWorker<Void, Void> {
 		loginEl.sendKeys(Keys.ENTER); Thread.sleep(20000);
 		
 		while (true) {
-			Random r = new Random();
 			goToValorantStream(Variables.getDriver());
-			Thread.sleep(millisRefresh * (r.nextInt(20) + 15));
 		}
-		
 	}
 
 
 	private static void goToValorantStream(WebDriver driver) throws InterruptedException {
+		Random r = new Random();
+		long initialTime = System.currentTimeMillis();
+		long maxTime = 60 * 1000 * (r.nextInt(15) + 15);
 		driver.get(Constants.TWITCH_VALORANT_PAGE);
 		Thread.sleep(2000);
 		List<WebElement> links = driver.findElements(By.className(Constants.TW_LINK));
@@ -48,6 +48,22 @@ public class MainFunction extends SwingWorker<Void, Void> {
 				break;
 			}
 		}
+		
+		Thread.sleep(2000);
+		boolean live = true;
+		while (live) {
+			List<WebElement> liveList = driver.findElements(By.className(Constants.LIVE_INDICATOR));
+			long diff = System.currentTimeMillis() - initialTime;
+			if (liveList == null || liveList.size() == 0 || diff > maxTime) {
+				live = false;
+			}
+			
+			System.out.println("diff -> " + diff);
+			System.out.println("maxTime -> " + maxTime);
+			System.out.println("liveList -> " + liveList == null ? "null" : liveList.size());
+			Thread.sleep(1000);
+		}
+		
 	}
 
 

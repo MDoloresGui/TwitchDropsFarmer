@@ -11,4 +11,5 @@ public class Constants {
 	public static final String TW_LINK = "tw-link";
 	public static final String DATA_A_TARGET = "data-a-target";
 	public static final String DATA_A_TARGET_EXPCTD_VALUE = "preview-card-title-link";
+	public static final String LIVE_INDICATOR = "live-indicator";
 }

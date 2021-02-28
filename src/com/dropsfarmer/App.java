@@ -1,4 +1,4 @@
-package com.dropsfarmer.valbetafarmer;
+package com.dropsfarmer;
 
 import com.dropsfarmer.view.MainMenu;
 

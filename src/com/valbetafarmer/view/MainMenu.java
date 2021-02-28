@@ -24,10 +24,15 @@ import java.awt.event.ActionEvent;
 
 public class MainMenu extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8633468977431973508L;
 	private JPanel contentPane;
 	private JTextField tfUser;
 	private JPasswordField tfPassword;
 	MainFunction mf = new MainFunction();
+	private JTextField tfGame;
 
 	/**
 	 * Launch the application.
@@ -50,7 +55,7 @@ public class MainMenu extends JFrame {
 	 */
 	public MainMenu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 346, 288);
+		setBounds(100, 100, 346, 314);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -83,7 +88,7 @@ public class MainMenu extends JFrame {
 				ds.setTitle("Choose Chrome Web Driver");
 			}
 		});
-		btWebDriver.setBounds(10, 110, 310, 23);
+		btWebDriver.setBounds(10, 141, 310, 23);
 		contentPane.add(btWebDriver);
 		
 		final JButton btStop = new JButton("STOP");
@@ -97,7 +102,10 @@ public class MainMenu extends JFrame {
 				if (Variables.getChrome_driver_route() == null
 						|| Variables.getChrome_driver_route().trim().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Please, set a Chrome WebDriver.");
+				} else if(tfGame.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Please, enter a Game to farm");
 				} else {
+					Variables.setGame(tfGame.getText().trim());
 					btStart.setText("STARTED");
 					btStart.setEnabled(false);
 					btStop.setText("STOP");
@@ -109,7 +117,7 @@ public class MainMenu extends JFrame {
 		});
 		btStart.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btStart.setForeground(new Color(0, 128, 0));
-		btStart.setBounds(10, 144, 310, 23);
+		btStart.setBounds(10, 175, 310, 23);
 		contentPane.add(btStart);
 		
 		
@@ -129,7 +137,7 @@ public class MainMenu extends JFrame {
 		});
 		btStop.setForeground(new Color(165, 42, 42));
 		btStop.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btStop.setBounds(10, 178, 310, 23);
+		btStop.setBounds(10, 209, 310, 23);
 		contentPane.add(btStop);
 		
 		
@@ -144,7 +152,13 @@ public class MainMenu extends JFrame {
 		});
 		btExit.setForeground(new Color(0, 0, 128));
 		btExit.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btExit.setBounds(10, 212, 310, 23);
+		btExit.setBounds(10, 243, 310, 23);
 		contentPane.add(btExit);
+		
+		tfGame = new JTextField();
+		tfGame.setToolTipText("GAME");
+		tfGame.setBounds(10, 110, 310, 20);
+		contentPane.add(tfGame);
+		tfGame.setColumns(10);
 	}
 }

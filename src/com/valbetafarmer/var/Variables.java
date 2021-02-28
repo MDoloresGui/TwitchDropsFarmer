@@ -7,6 +7,7 @@ public class Variables {
 	private static String login_user = "";
 	private static String login_pass = "";
 	private static WebDriver driver = null;
+	private static String game = "";
 	
 	
 	public static String getChrome_driver_route() {
@@ -32,6 +33,12 @@ public class Variables {
 	}
 	public static void setDriver(WebDriver driver) {
 		Variables.driver = driver;
+	}
+	public static String getGame() {
+		return game;
+	}
+	public static void setGame(String game) {
+		Variables.game = game;
 	}
 	
 	

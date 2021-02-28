@@ -14,9 +14,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import com.valbetafarmer.var.Constants;
 import com.valbetafarmer.var.Variables;
 
-public class MainFunction extends SwingWorker<Void, Void> {
-	private static long millisRefresh = 60 * 1000;
-	
+public class MainFunction extends SwingWorker<Void, Void> {	
 	private static void startFarm() throws InterruptedException {
 		String user = Variables.getLogin_user();
 		String pass = Variables.getLogin_pass();
@@ -29,21 +27,23 @@ public class MainFunction extends SwingWorker<Void, Void> {
 		loginEl.sendKeys(Keys.ENTER); Thread.sleep(20000);
 		
 		while (true) {
-			goToValorantStream(Variables.getDriver());
+			goToDropsStreams(Variables.getDriver());
 		}
 	}
 
 
-	private static void goToValorantStream(WebDriver driver) throws InterruptedException {
+	private static void goToDropsStreams(WebDriver driver) throws InterruptedException {
 		Random r = new Random();
 		long initialTime = System.currentTimeMillis();
 		long maxTime = 60 * 1000 * (r.nextInt(15) + 15);
-		driver.get(Constants.TWITCH_VALORANT_PAGE);
+		driver.get(Constants.TWITCH_GAME_ROOT_PAGE + Variables.getGame());
 		Thread.sleep(2000);
 		List<WebElement> links = driver.findElements(By.className(Constants.TW_LINK));
 		for (WebElement link : links) {
 			String att = link.getAttribute(Constants.DATA_A_TARGET);
-			if (att != null && att.equals(Constants.DATA_A_TARGET_EXPCTD_VALUE)) {
+			if (att != null
+					&& att.equals(Constants.DATA_A_TARGET_EXPCTD_VALUE)
+					&& link.getText().toUpperCase().contains("DROPS")) {
 				link.click();
 				break;
 			}

@@ -12,7 +12,7 @@ public class App
     {
         MainMenu m = new MainMenu();
         m.setLocationRelativeTo(null);
-        m.setTitle("Valorant beta farmer");
+        m.setTitle("Twitch !Drops farmer");
         m.setResizable(false);
         m.setVisible(true);
     }

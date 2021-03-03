@@ -18,8 +18,12 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
+import javax.swing.SwingWorker.StateValue;
 
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.awt.event.ActionEvent;
 
 public class MainMenu extends JFrame {
@@ -88,6 +92,7 @@ public class MainMenu extends JFrame {
 				ds.setTitle("Choose Chrome Web Driver");
 			}
 		});
+		
 		btWebDriver.setBounds(10, 141, 310, 23);
 		contentPane.add(btWebDriver);
 		
@@ -125,13 +130,7 @@ public class MainMenu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (Variables.getDriver() != null) {
 					mf.cancel(true);
-					Variables.getDriver().quit();
-					mf = new MainFunction();
-					btStop.setText("STOPPED");
-					btStop.setEnabled(false);
-					btStart.setEnabled(true);
-					btStart.setText("START");
-					btExit.setEnabled(true);
+					stopProcess(btStop, btStart, btExit);
 				}
 			}
 		});
@@ -140,6 +139,16 @@ public class MainMenu extends JFrame {
 		btStop.setBounds(10, 209, 310, 23);
 		contentPane.add(btStop);
 		
+		mf.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals("state")
+						&& StateValue.DONE.equals(mf.getState())) {
+					stopProcess(btStop, btStart, btExit);
+				}
+				
+			}
+		});
 		
 		btExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -160,5 +169,15 @@ public class MainMenu extends JFrame {
 		tfGame.setBounds(10, 110, 310, 20);
 		contentPane.add(tfGame);
 		tfGame.setColumns(10);
+	}
+	
+	private void stopProcess(JButton btStop, JButton btStart, JButton btExit) {
+		Variables.getDriver().quit();
+		mf = new MainFunction();
+		btStop.setText("STOPPED");
+		btStop.setEnabled(false);
+		btStart.setEnabled(true);
+		btStart.setText("START");
+		btExit.setEnabled(true);
 	}
 }

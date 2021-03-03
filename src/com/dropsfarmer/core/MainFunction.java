@@ -3,6 +3,7 @@ package com.dropsfarmer.core;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import org.openqa.selenium.By;
@@ -25,43 +26,51 @@ public class MainFunction extends SwingWorker<Void, Void> {
 		loginEl.sendKeys(user); loginEl =
 				Variables.getDriver().findElement(By.id(Constants.ID_PASS)); loginEl.sendKeys(pass);
 		loginEl.sendKeys(Keys.ENTER); Thread.sleep(20000);
-		
-		while (true) {
-			goToDropsStreams(Variables.getDriver());
+		var farm = Boolean.TRUE;
+		while (farm) {
+			 farm = goToDropsStreams(Variables.getDriver());
 		}
 	}
 
-
-	private static void goToDropsStreams(WebDriver driver) throws InterruptedException {
+	private static boolean goToDropsStreams(WebDriver driver) throws InterruptedException {
 		Random r = new Random();
 		long initialTime = System.currentTimeMillis();
 		long maxTime = 60 * 1000 * (r.nextInt(15) + 15);
 		driver.get(Constants.TWITCH_GAME_ROOT_PAGE + Variables.getGame());
 		Thread.sleep(2000);
 		List<WebElement> links = driver.findElements(By.className(Constants.TW_LINK));
+		var dropsFound = Boolean.FALSE;
 		for (WebElement link : links) {
 			String att = link.getAttribute(Constants.DATA_A_TARGET);
 			if (att != null
 					&& att.equals(Constants.DATA_A_TARGET_EXPCTD_VALUE)
 					&& link.getText().toUpperCase().contains("DROPS")) {
 				link.click();
+				dropsFound = true;
 				break;
 			}
 		}
 		
-		Thread.sleep(2000);
-		boolean live = true;
-		while (live) {
-			List<WebElement> liveList = driver.findElements(By.className(Constants.LIVE_INDICATOR));
-			long diff = System.currentTimeMillis() - initialTime;
-			if (liveList == null || liveList.size() == 0 || diff > maxTime) {
-				live = false;
+		if (!dropsFound) {
+			JOptionPane.showMessageDialog(null,
+					String.format("The game %s doesn't have any streams with active drops", Variables.getGame()));
+			return Boolean.FALSE;
+		} else {
+			Thread.sleep(2000);
+			boolean live = Boolean.TRUE;
+			while (live) {
+				List<WebElement> liveList = driver.findElements(By.className(Constants.LIVE_INDICATOR));
+				long diff = System.currentTimeMillis() - initialTime;
+				if (liveList == null || liveList.size() == 0 || diff > maxTime) {
+					live = Boolean.FALSE;
+				}
+				
+				System.out.println("diff -> " + diff);
+				System.out.println("maxTime -> " + maxTime);
+				System.out.println("liveList -> " + liveList == null ? "null" : liveList.size());
+				Thread.sleep(1000);
 			}
-			
-			System.out.println("diff -> " + diff);
-			System.out.println("maxTime -> " + maxTime);
-			System.out.println("liveList -> " + liveList == null ? "null" : liveList.size());
-			Thread.sleep(1000);
+			return Boolean.TRUE;
 		}
 		
 	}
@@ -70,6 +79,7 @@ public class MainFunction extends SwingWorker<Void, Void> {
 	@Override
 	protected Void doInBackground() throws Exception {
 		startFarm();
+		this.done();
 		return null;
 	}
 }

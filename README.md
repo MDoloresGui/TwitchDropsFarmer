@@ -7,7 +7,7 @@ It's a project made in a few hours, just for fun (and motivated in let the compu
 Good farm!~
 
 Lastest release:
-https://github.com/MDoloresGui/TwitchDropsFarmer/releases/download/v1.0.3/TwitchDropsFarmer-1_0_3.jar
+https://github.com/MDoloresGui/TwitchDropsFarmer/releases/download/v1.1.0/TwitchDropsFarmer-1_1_0.jar
 
 Note: make sure you have your Twitch's email open in other browser. This bot can't handle (yet, and possibly never) with Twitch's Double Authentification.
 Note 2: check the category URL when you enter the game name. e.g.: the game name for [https://www.twitch.tv/directory/game/Black%20Desert%20Online] is Black Desert Online. I'm working on make a more user-friendly system.

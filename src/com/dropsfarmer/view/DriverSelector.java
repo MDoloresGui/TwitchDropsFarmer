@@ -20,12 +20,20 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Objects;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
 public class DriverSelector extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7943979577109556673L;
 	private JPanel contentPane;
 	private JTextField tfRuta;
 
@@ -60,6 +68,10 @@ public class DriverSelector extends JFrame {
 		tfRuta.setBounds(10, 57, 215, 20);
 		contentPane.add(tfRuta);
 		tfRuta.setColumns(10);
+		
+		if (Objects.nonNull(Variables.getChrome_driver_route())) {
+			tfRuta.setText(Variables.getChrome_driver_route());
+		}
 
 		JButton tfAbrir = new JButton("Browse");
 		tfAbrir.addActionListener(new ActionListener() {
@@ -141,6 +153,15 @@ public class DriverSelector extends JFrame {
 
 	private void setFileChoosedInVariable() {
 		Variables.setChrome_driver_route(tfRuta.getText().trim());
+		File f = new File(Constants.WEBDRIVER_PROP_PATH);
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+			bw.write(Variables.getChrome_driver_route());
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		this.dispose();
 	}
 }

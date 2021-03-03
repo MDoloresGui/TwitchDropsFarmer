@@ -1,5 +1,6 @@
 package com.dropsfarmer;
 
+import com.dropsfarmer.core.WebDriverChecker;
 import com.dropsfarmer.view.MainMenu;
 
 /**
@@ -10,6 +11,9 @@ public class App
 {
     public static void main( String[] args ) throws InterruptedException
     {
+    	WebDriverChecker wdc = new WebDriverChecker();
+    	wdc.run();
+    	
         MainMenu m = new MainMenu();
         m.setLocationRelativeTo(null);
         m.setTitle("Twitch !Drops farmer");

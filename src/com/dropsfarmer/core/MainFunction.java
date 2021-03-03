@@ -21,8 +21,9 @@ public class MainFunction extends SwingWorker<Void, Void> {
 		String pass = Variables.getLogin_pass();
 		System.setProperty(Constants.PROP_DRIVER, Variables.getChrome_driver_route());
 		Variables.setDriver(new ChromeDriver());
-		Variables.getDriver().get(Constants.TWITCH_LOGIN_PAGE); Thread.sleep(2000); WebElement
-		loginEl = Variables.getDriver().findElement(By.id(Constants.ID_USER));
+		Variables.getDriver().get(Constants.TWITCH_LOGIN_PAGE); Thread.sleep(2000);
+		
+		WebElement loginEl = Variables.getDriver().findElement(By.id(Constants.ID_USER));
 		loginEl.sendKeys(user); loginEl =
 				Variables.getDriver().findElement(By.id(Constants.ID_PASS)); loginEl.sendKeys(pass);
 		loginEl.sendKeys(Keys.ENTER); Thread.sleep(20000);

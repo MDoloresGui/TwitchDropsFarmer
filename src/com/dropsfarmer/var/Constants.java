@@ -12,4 +12,8 @@ public class Constants {
 	public static final String DATA_A_TARGET = "data-a-target";
 	public static final String DATA_A_TARGET_EXPCTD_VALUE = "preview-card-title-link";
 	public static final String LIVE_INDICATOR = "live-indicator-container";
+	
+	public static final String HOME_ENV = System.getProperty("user.home");
+	public static final String WEBDRIVER_FILE = "tdf_webdriver.properties";
+	public static final String WEBDRIVER_PROP_PATH = HOME_ENV + "\\" + WEBDRIVER_FILE;
 }

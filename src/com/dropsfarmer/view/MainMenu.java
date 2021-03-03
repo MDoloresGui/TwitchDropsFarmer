@@ -18,12 +18,12 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
 import javax.swing.SwingWorker.StateValue;
 
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 import java.awt.event.ActionEvent;
 
 public class MainMenu extends JFrame {
@@ -115,7 +115,6 @@ public class MainMenu extends JFrame {
 					btStart.setEnabled(false);
 					btStop.setText("STOP");
 					btStop.setEnabled(true);
-					btExit.setEnabled(false);
 					mf.execute();
 				}
 			}
@@ -152,6 +151,10 @@ public class MainMenu extends JFrame {
 		
 		btExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (!mf.isCancelled() && !mf.isDone()) {
+					mf.cancel(Boolean.TRUE);
+				}
+				
 				if (Variables.getDriver() != null) {
 					Variables.getDriver().quit();
 				}
@@ -172,7 +175,9 @@ public class MainMenu extends JFrame {
 	}
 	
 	private void stopProcess(JButton btStop, JButton btStart, JButton btExit) {
-		Variables.getDriver().quit();
+		if (Objects.nonNull(Variables.getDriver()))
+			Variables.getDriver().quit();
+		
 		mf = new MainFunction();
 		btStop.setText("STOPPED");
 		btStop.setEnabled(false);
